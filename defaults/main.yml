@@ -1,0 +1,4 @@
+---
+server_name: "novnc"
+listen: "80 default_server"
+novnc_upstreams: []

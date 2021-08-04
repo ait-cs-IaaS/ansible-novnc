@@ -1,0 +1,21 @@
+{% for upstream in novnc_upstreams %}
+upstream {{ upstream.name }} {
+  server {{ upstream.address }}:{{ upstream.port | default('80') }};
+}
+{% endfor %}
+
+
+server {
+  listen {{ listen }};
+  server_name {{ server_name }};
+
+{% for upstream in novnc_upstreams %}
+  location /{{ upstream.name }} {
+    proxy_pass http://{{ upstream.name }};
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+  }
+{% endfor %}
+
+}
