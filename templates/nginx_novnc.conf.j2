@@ -1,6 +1,6 @@
 {% for upstream in novnc_upstreams %}
 upstream {{ upstream.name }} {
-  server {{ upstream.address }}:{{ upstream.port | default('80') }};
+  server {{ upstream.address }}:{{ upstream.port }};
 }
 {% endfor %}
 
@@ -8,13 +8,33 @@ upstream {{ upstream.name }} {
 server {
   listen {{ listen }};
   server_name {{ server_name }};
+  root        {{ fabric_wwwroot }};
+
+{% if ssl_cert and ssl_key %}
+  listen {{ listen_ssl }};
+  ssl_certificate     {{ ssl_cert }};
+  ssl_certificate_key {{ ssl_key }};
+{% endif %}
+{% if htpasswd_credentials %}
+  auth_basic           "noVNC Authentication";
+  auth_basic_user_file /etc/nginx/passwdfile;
+{% endif %}
+  location / {
+    try_files      $uri $uri/ =404;
+  }
+
+  proxy_http_version 1.1;
+  proxy_set_header Upgrade $http_upgrade;
+  proxy_set_header Connection "upgrade";
+  proxy_buffering off;
+
+  proxy_set_header X-Real-IP $remote_addr;
+  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  proxy_set_header X-Forwarded-Proto $scheme;
 
 {% for upstream in novnc_upstreams %}
   location /{{ upstream.name }} {
-    proxy_pass http://{{ upstream.name }};
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_pass http://{{ upstream.name }}/;
   }
 {% endfor %}
 

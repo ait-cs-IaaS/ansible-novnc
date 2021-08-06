@@ -1,20 +1,15 @@
 ---
-- name: Install nginx package
-  become: true
-  tags: [install]
-  apt:
-    name: nginx
-    state: present
+- name: Configure and install nginx
+  tags: [nginx]
+  include_tasks: nginx.yml
+  args:
+    apply:
+      become: yes
+      notify: restart nginx
 
-- name: Remove default config
-  become: true
-  file: path=/etc/nginx/sites-enabled/default state=absent
-
-- name: Add NGINX configuration file
-  become: true
-  template:
-    dest: /etc/nginx/sites-enabled/novnc.conf
-    src: nginx_novnc.conf.j2
-    mode: 0644
-  notify:
-    - "restart nginx"
+- name: Configure and install fabric
+  tags: [fabric]
+  include_tasks: fabric.yml
+  args:
+    apply:
+      become: yes

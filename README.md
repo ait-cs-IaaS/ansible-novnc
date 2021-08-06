@@ -30,12 +30,10 @@ novnc_upstreams: []
 ```yaml
 - name: Configure noVNC Server
   hosts: novnc
-  vars:
-    novnc_upstreams: []
   tasks:
     - name: Set novnc_upstream hosts
       set_fact:
-        novnc_upstreams: "{{ novnc_upstreams + [{'name': item, 'address': hostvars[item]['ansible_default_ipv4']['address']}] }}"
+        novnc_upstreams: "{{ novnc_upstreams|default([]) + [{'name': item, 'address': hostvars[item]['ansible_default_ipv4']['address']}] }}"
       with_items: "{{ groups['clients'] }}"
 
     - name: Configure noVNC Server
