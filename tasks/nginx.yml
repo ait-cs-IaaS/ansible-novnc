@@ -6,8 +6,11 @@
     state: present
 
 - name: Remove default config
-  file: path=/etc/nginx/sites-enabled/default state=absent
-    
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items: ["/etc/nginx/sites-enabled/default", "/etc/nginx/conf.d"]
+
 - name: Add NGINX configuration file
   template:
     dest: /etc/nginx/sites-enabled/novnc.conf
@@ -18,7 +21,7 @@
 
 - name: Ensure the htpasswd utility is installed.
   apt:
-    name: ["apache2-utils", "python3-passlib" ]
+    name: ["apache2-utils", "python3-passlib"]
     state: present
   when: htpasswd_credentials
 

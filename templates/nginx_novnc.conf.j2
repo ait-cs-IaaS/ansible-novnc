@@ -24,7 +24,7 @@ server {
   }
 
   location = / {
-    return 302 $scheme://$host?target=$remote_user;
+    return 302 $scheme://$host/$remote_user;
   }
 
   proxy_http_version 1.1;
@@ -38,7 +38,7 @@ server {
   add_header       REMOTE_USER $remote_user;
 
 {% for upstream in novnc_upstreams %}
-  location /{{ upstream.name }} {
+  location /upstream/{{ upstream.name }} {
     proxy_pass http://{{ upstream.name }}/;
   }
 {% endfor %}

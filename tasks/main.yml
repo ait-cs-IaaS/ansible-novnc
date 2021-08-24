@@ -4,7 +4,7 @@
   include_tasks: nginx.yml
   args:
     apply:
-      become: yes
+      become: true
       notify: restart nginx
 
 - name: Configure and install fabric
@@ -12,4 +12,4 @@
   include_tasks: fabric.yml
   args:
     apply:
-      become: yes
+      become: true

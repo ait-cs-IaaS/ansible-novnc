@@ -3,6 +3,7 @@
   file:
     path: "/var/www/fabric"
     state: directory
+    mode: 0755
 
 - name: Create novnc HTML
   template:

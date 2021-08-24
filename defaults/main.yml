@@ -7,7 +7,7 @@ novnc_upstreams: []
 
 fabric_wwwroot: "/var/www/fabric"
 
-fabric_version: "1.0.0"
+fabric_version: "latest"
 fabric_release_url: "https://github.com/ait-cs-IaaS/fabric/releases/download"
 
 fabric_title: "AIT Fabric"
