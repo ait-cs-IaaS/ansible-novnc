@@ -20,10 +20,14 @@ server {
   auth_basic_user_file /etc/nginx/passwdfile;
 {% endif %}
   location / {
-    try_files      $uri $uri/ =404;
+    try_files      $uri $uri/ /index.html;
   }
 
   location = / {
+    try_files DUMMY @login;
+  }
+
+  location @login {
     return 302 $scheme://$host/$remote_user;
   }
 
@@ -38,9 +42,10 @@ server {
   add_header       REMOTE_USER $remote_user;
 
 {% for upstream in novnc_upstreams %}
-  location /upstream/{{ upstream.name }} {
+  location /upstream/{{ upstream.username }} {
     proxy_pass http://{{ upstream.name }}/;
   }
+
 {% endfor %}
 
 }
