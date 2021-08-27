@@ -5,7 +5,6 @@
   args:
     apply:
       become: true
-      notify: restart nginx
 
 - name: Configure and install fabric
   tags: [fabric]

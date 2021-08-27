@@ -10,14 +10,14 @@
     path: "{{ item }}"
     state: absent
   with_items: ["/etc/nginx/sites-enabled/default", "/etc/nginx/conf.d"]
+  notify: restart nginx
 
 - name: Add NGINX configuration file
   template:
     dest: /etc/nginx/sites-enabled/novnc.conf
     src: nginx_novnc.conf.j2
     mode: 0644
-  notify:
-    - "restart nginx"
+  notify: restart nginx
 
 - name: Ensure the htpasswd utility is installed.
   apt:
