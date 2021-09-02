@@ -6,7 +6,7 @@ listen_ssl: "443 ssl default_server"
 novnc_upstreams: []
 
 fabric_wwwroot: "/var/www/fabric"
-
+fabric_index_template: "index.html.j2"
 fabric_version: "latest"
 fabric_release_url: "https://github.com/ait-cs-IaaS/fabric/releases/download"
 
