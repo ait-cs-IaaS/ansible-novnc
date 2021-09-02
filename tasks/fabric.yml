@@ -8,7 +8,7 @@
 - name: Create novnc HTML
   template:
     dest: "/var/www/fabric/index.html"
-    src: index.html.j2
+    src: "{{ fabric_index_template }}"
     mode: 0644
 
 - name: Download fabric
