@@ -1,17 +1,17 @@
 ---
 - name: Create fabric directory
   file:
-    path: "/var/www/fabric"
+    path: "{{ fabric_wwwroot }}"
     state: directory
     mode: 0755
 
 - name: Create novnc HTML
   template:
-    dest: "/var/www/fabric/index.html"
+    dest: "{{ fabric_wwwroot }}/index.html"
     src: "{{ fabric_index_template }}"
     mode: 0644
 
 - name: Download fabric
   get_url:
     url: "{{ fabric_release_url }}/{{ fabric_version }}/main.js"
-    dest: "/var/www/fabric/main.js"
+    dest: "{{ fabric_wwwroot }}/main.js"
