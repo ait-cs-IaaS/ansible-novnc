@@ -19,15 +19,26 @@
     mode: 0644
   notify: restart nginx
 
-- name: Ensure the htpasswd utility is installed.
+- name: Ensure the htpasswd utility is installed
   apt:
     name: ["apache2-utils", "python3-passlib"]
     state: present
   when: htpasswd_credentials
 
-- name: Ensure htpasswd credentials are configured.
+- name: Ensure htpasswd credentials are configured
   htpasswd:
     path: "/etc/nginx/passwdfile"
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    owner: "root"
+    group: "www-data"
+    mode: "0640"
+  with_items: "{{ htpasswd_credentials }}"
+  no_log: true
+
+- name: Per User htpasswd
+  htpasswd:
+    path: "/etc/nginx/passwd-{{ item.name }}"
     name: "{{ item.name }}"
     password: "{{ item.password }}"
     owner: "root"

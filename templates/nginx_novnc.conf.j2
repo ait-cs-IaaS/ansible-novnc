@@ -4,17 +4,29 @@ upstream {{ upstream.name }} {
 }
 {% endfor %}
 
-
+{% if ssl_cert and ssl_key %}
 server {
   listen {{ listen }};
   server_name {{ server_name }};
-  root        {{ fabric_wwwroot }};
 
+  location / {
+    return 301 https://$host$request_uri;
+  }
+}
+{% endif %}
+
+server {
 {% if ssl_cert and ssl_key %}
   listen {{ listen_ssl }};
   ssl_certificate     {{ ssl_cert }};
   ssl_certificate_key {{ ssl_key }};
+{% else %}
+  listen {{ listen }};
 {% endif %}
+
+  server_name {{ server_name }};
+  root        {{ fabric_wwwroot }};
+
 {% if htpasswd_credentials %}
   auth_basic           "noVNC Authentication";
   auth_basic_user_file /etc/nginx/passwdfile;
@@ -43,6 +55,10 @@ server {
 
 {% for upstream in novnc_upstreams %}
   location /upstream/{{ upstream.username }} {
+    {% if htpasswd_credentials %}
+    auth_basic           "noVNC {{ upstream.username }} Authentication";
+    auth_basic_user_file /etc/nginx/passwd-{{ upstream.username }};
+    {% endif %}
     proxy_pass http://{{ upstream.name }}/;
   }
 
