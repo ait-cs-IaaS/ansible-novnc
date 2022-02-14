@@ -30,10 +30,6 @@ server {
 {% if htpasswd_credentials %}
   auth_basic           "noVNC Authentication";
   auth_basic_user_file /etc/nginx/passwdfile;
-{% endif %}
-  location / {
-    try_files      $uri $uri/ /index.html;
-  }
 
   location = / {
     try_files DUMMY @login;
@@ -41,6 +37,10 @@ server {
 
   location @login {
     return 302 $scheme://$host/$remote_user;
+  }
+{% endif %}
+  location / {
+    try_files      $uri $uri/ /index.html;
   }
 
   proxy_http_version 1.1;
@@ -55,10 +55,10 @@ server {
 
 {% for upstream in novnc_upstreams %}
   location /upstream/{{ upstream.username }} {
-    {% if htpasswd_credentials %}
+{% if htpasswd_credentials %}
     auth_basic           "noVNC {{ upstream.username }} Authentication";
     auth_basic_user_file /etc/nginx/passwd-{{ upstream.username }};
-    {% endif %}
+{% endif %}
     proxy_pass http://{{ upstream.name }}/;
   }
 
