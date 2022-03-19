@@ -23,7 +23,7 @@
   apt:
     name: ["apache2-utils", "python3-passlib"]
     state: present
-  when: htpasswd_credentials
+  when: novnc_htpasswd_credentials
 
 - name: Ensure htpasswd credentials are configured
   htpasswd:
@@ -33,7 +33,7 @@
     owner: "root"
     group: "www-data"
     mode: "0640"
-  with_items: "{{ htpasswd_credentials }}"
+  with_items: "{{ novnc_htpasswd_credentials }}"
   no_log: true
 
 - name: Per User htpasswd
@@ -44,5 +44,5 @@
     owner: "root"
     group: "www-data"
     mode: "0640"
-  with_items: "{{ htpasswd_credentials }}"
+  with_items: "{{ novnc_htpasswd_credentials }}"
   no_log: true

@@ -18,7 +18,11 @@ server_name: "novnc"
 ```
 
 ```yaml
-listen: "80 default_server"
+novnc_listen: "80"
+```
+
+```yaml
+novnc_listen_ssl: "443 ssl"
 ```
 
 ```yaml

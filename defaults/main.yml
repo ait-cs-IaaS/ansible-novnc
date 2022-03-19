@@ -1,9 +1,10 @@
 ---
-server_name: "novnc.cyberrange.at"
-listen: "80 default_server"
-listen_ssl: "443 ssl default_server"
+novnc_server_name: "novnc.cyberrange.at"
+novnc_listen: "80"
+novnc_listen_ssl: "443 ssl"
 
 novnc_upstreams: []
+novnc_htpasswd_credentials: []
 
 fabric_copypaste_bar: true
 fabric_wwwroot: "/var/www/fabric"
@@ -14,7 +15,6 @@ fabric_release_url: "https://github.com/ait-cs-IaaS/fabric/releases/download"
 
 fabric_title: "AIT Fabric"
 
-htpasswd_credentials: []
-
 ssl_cert: ""
 ssl_key: ""
+
