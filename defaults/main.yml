@@ -1,5 +1,5 @@
 ---
-novnc_server_name: "novnc.cyberrange.at"
+novnc_server_name: "novnc.cyberrange.rocks"
 novnc_listen: "80"
 novnc_listen_ssl: "443 ssl"
 
@@ -15,6 +15,6 @@ fabric_release_url: "https://github.com/ait-cs-IaaS/fabric/releases/download"
 
 fabric_title: "AIT Fabric"
 
-ssl_cert: ""
-ssl_key: ""
+novnc_ssl_cert: ""
+novnc_ssl_key: ""
 

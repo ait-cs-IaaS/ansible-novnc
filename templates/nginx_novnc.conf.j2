@@ -4,10 +4,10 @@ upstream {{ upstream.name }} {
 }
 {% endfor %}
 
-{% if ssl_cert and ssl_key %}
+{% if novnc_ssl_cert and novnc_ssl_key %}
 server {
   listen {{ novnc_listen }};
-  server_name {{ server_name }};
+  server_name {{ novnc_server_name }};
 
   location / {
     return 301 https://$host$request_uri;
@@ -18,13 +18,13 @@ server {
 server {
 {% if ssl_cert and ssl_key %}
   listen {{ novnc_listen_ssl }};
-  ssl_certificate     {{ ssl_cert }};
-  ssl_certificate_key {{ ssl_key }};
+  ssl_certificate     {{ novnc_ssl_cert }};
+  ssl_certificate_key {{ novnc_ssl_key }};
 {% else %}
-  listen {{ listen }};
+  listen {{ novnc_listen }};
 {% endif %}
 
-  server_name {{ server_name }};
+  server_name {{ novnc_server_name }};
   root        {{ fabric_wwwroot }};
 
 {% if novnc_htpasswd_credentials %}
