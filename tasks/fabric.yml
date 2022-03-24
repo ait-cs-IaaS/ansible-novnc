@@ -1,25 +1,25 @@
 ---
 - name: Create fabric directory
-  file:
+  ansible.builtin.file:
     path: "{{ fabric_wwwroot }}"
     state: directory
     mode: 0755
 
 - name: copy css&js for fabric html
-  copy:
+  ansible.builtin.copy:
     dest: "{{ fabric_wwwroot }}/"
     src: "fabricweb/"
     mode: 0644
   when: fabric_copypaste_bar
 
 - name: Deploy novnc HTML
-  template:
+  ansible.builtin.template:
     dest: "{{ fabric_wwwroot }}/index.html"
     src: "{{ fabric_index_template }}"
     mode: 0644
 
 - name: Download fabric
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ fabric_release_url }}/{{ fabric_version }}/main.js"
     dest: "{{ fabric_wwwroot }}/main.js"
-
+    mode: 0644
