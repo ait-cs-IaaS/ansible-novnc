@@ -54,7 +54,7 @@ server {
   add_header       REMOTE_USER $remote_user;
 
 {% for upstream in novnc_upstreams %}
-  location /upstream/{{ upstream.username }} {
+  location /upstream/{{ upstream.name }} {
 {% if novnc_htpasswd_credentials %}
     auth_basic           "noVNC {{ upstream.username }} Authentication";
     auth_basic_user_file /etc/nginx/passwd-{{ upstream.username }};
