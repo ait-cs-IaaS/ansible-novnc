@@ -16,7 +16,7 @@ server {
 {% endif %}
 
 server {
-{% if ssl_cert and ssl_key %}
+{% if novnc_ssl_cert and novnc_ssl_key %}
   listen {{ novnc_listen_ssl }};
   ssl_certificate     {{ novnc_ssl_cert }};
   ssl_certificate_key {{ novnc_ssl_key }};
