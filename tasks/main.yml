@@ -3,14 +3,12 @@
   tags: [nginx]
   ansible.builtin.include_tasks:
       file: nginx.yml
-      args:
-          apply:
-              become: true
+      apply:
+          become: true
 
 - name: Configure and install fabric
   tags: [fabric]
   ansible.builtin.include_tasks:
       file: fabric.yml
-      args:
-          apply:
-              become: true
+      apply:
+          become: true
