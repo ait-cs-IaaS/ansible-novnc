@@ -71,6 +71,12 @@ function mouseUp() {
 }
 
 function init() {
+    document.addEventListener('keydown', function (event) {
+        if (event.ctrlKey && event.key === 'v') {
+            showInsertHint();
+        }
+    });
+
     var container_element = document.querySelector('.draggable');
     var draggie = new Draggabilly(container_element, {
         axis: 'x',
