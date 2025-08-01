@@ -1,6 +1,5 @@
 ---
 novnc_server_name: "novnc.cyberrange.rocks"
-novnc_listen: "80"
 novnc_listen_ssl: "443 ssl"
 
 novnc_upstreams: []
@@ -8,6 +7,7 @@ novnc_htpasswd_credentials: []
 
 fabric_copypaste_bar: true
 fabric_wwwroot: "/var/www/fabric"
+fabric_conf_wwwroot: "{{ fabric_wwwroot }}"
 fabric_index_template: "{{ 'index.html.j2' if fabric_copypaste_bar else 'minimal.html.j2' }}"
 
 fabric_version: "latest"
@@ -17,3 +17,6 @@ fabric_title: "AIT Fabric"
 
 novnc_ssl_cert: ""
 novnc_ssl_key: ""
+
+fabric_docker_nginx: false
+fabric_docker_nginx_conf_file: /etc/nginx/conf.d/novnc.conf

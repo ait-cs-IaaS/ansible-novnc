@@ -4,41 +4,23 @@ upstream {{ upstream.name }} {
 }
 {% endfor %}
 
-{% if novnc_ssl_cert and novnc_ssl_key %}
 server {
-  listen {{ novnc_listen }};
+  listen 80;
   server_name {{ novnc_server_name }};
 
   location / {
     return 301 https://$host$request_uri;
   }
 }
-{% endif %}
 
 server {
-{% if novnc_ssl_cert and novnc_ssl_key %}
   listen {{ novnc_listen_ssl }};
   ssl_certificate     {{ novnc_ssl_cert }};
   ssl_certificate_key {{ novnc_ssl_key }};
-{% else %}
-  listen {{ novnc_listen }};
-{% endif %}
 
   server_name {{ novnc_server_name }};
-  root        {{ fabric_wwwroot }};
+  root        {{ fabric_conf_wwwroot }};
 
-{% if novnc_htpasswd_credentials %}
-  auth_basic           "noVNC Authentication";
-  auth_basic_user_file /etc/nginx/passwdfile;
-
-  location = / {
-    try_files DUMMY @login;
-  }
-
-  location @login {
-    return 302 $scheme://$host/$remote_user;
-  }
-{% endif %}
   location / {
     try_files      $uri $uri/ /index.html;
   }
@@ -57,10 +39,6 @@ server {
 
 {% for upstream in novnc_upstreams %}
   location /upstream/{{ upstream.name }} {
-{% if novnc_htpasswd_credentials %}
-    auth_basic           "noVNC {{ upstream.username }} Authentication";
-    auth_basic_user_file /etc/nginx/passwd-{{ upstream.username }};
-{% endif %}
     proxy_pass http://{{ upstream.name }}/;
   }
 

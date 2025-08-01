@@ -5,6 +5,15 @@
     file: nginx.yml
     apply:
       become: true
+  when: not fabric_docker_nginx
+
+- name: Add NGINX configuration file
+  become: true
+  ansible.builtin.template:
+    dest: "{{ fabric_docker_nginx_conf_file }}"
+    src: nginx_novnc.conf.j2
+    mode: "0644"
+  when: fabric_docker_nginx
 
 - name: Configure and install fabric
   tags: [fabric]
