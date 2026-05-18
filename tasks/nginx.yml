@@ -22,7 +22,7 @@
   ansible.builtin.apt:
     name: ["apache2-utils", "python3-passlib"]
     state: present
-  when: novnc_htpasswd_credentials
+  when: novnc_htpasswd_credentials is not none and novnc_htpasswd_credentials != []
 
 - name: Ensure htpasswd credentials are configured
   community.general.htpasswd:
